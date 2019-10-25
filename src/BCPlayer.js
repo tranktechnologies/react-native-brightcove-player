@@ -448,6 +448,12 @@ class BCPlayer extends Component {
         this.setState({showControls: false})
     }
 
+    stopPlayback() {
+        this.setState({ paused:true },()=>{
+            this.player.stopPlayback();
+        })
+    }
+
     render() {
 
 

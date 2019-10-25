@@ -21,6 +21,7 @@ public class BrightcovePlayerManager extends SimpleViewManager<BrightcovePlayerV
     public static final int COMMAND_PLAY_VIDEO = 3;
     public static final int COMMAND_BIT_RATE = 4;
     public static final int SEEK_TO_LIVE=5;
+    public static final int COMMAND_STOP_PLAYBACK = 6;
     public static final String EVENT_READY = "ready";
     public static final String EVENT_METADATA_LOADED = "metadata_loaded";
     public static final String EVENT_PLAY = "play";
@@ -132,7 +133,8 @@ public class BrightcovePlayerManager extends SimpleViewManager<BrightcovePlayerV
                 "setFullscreen", COMMAND_SET_FULLSCREEN,
                 "playVideo", COMMAND_PLAY_VIDEO,
                 "setBitRate", COMMAND_BIT_RATE,
-                "seekToLive", SEEK_TO_LIVE
+                "seekToLive", SEEK_TO_LIVE,
+                "stopPlayback", COMMAND_STOP_PLAYBACK
         );
     }
 
@@ -163,6 +165,10 @@ public class BrightcovePlayerManager extends SimpleViewManager<BrightcovePlayerV
             }
             case COMMAND_BIT_RATE: {
                 view.setBitRate((int)args.getDouble(0));
+                return;
+            }
+            case  COMMAND_STOP_PLAYBACK:{
+                view.stopPlayback();
                 return;
             }
         }

@@ -195,6 +195,19 @@ BrightcovePlayer.prototype.setFullscreen = Platform.select({
   }
 });
 
+BrightcovePlayer.prototype.stopPlayback = Platform.select({
+  ios: function () {
+    //no method for ios
+  },
+  android: function () {
+    UIManager.dispatchViewManagerCommand(
+      ReactNative.findNodeHandle(this._root),
+      UIManager.BrightcovePlayer.Commands.stopPlayback,
+      []
+    );
+  }
+});
+
 BrightcovePlayer.propTypes = {
   ...(ViewPropTypes || View.propTypes),
   policyKey: PropTypes.string,

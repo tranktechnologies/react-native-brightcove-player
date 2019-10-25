@@ -386,6 +386,14 @@ public class BrightcovePlayerView extends RelativeLayout implements LifecycleEve
         this.playerVideoView.seekToLive();
     }
 
+    //We need to stop the player to avoid a potential memory leak.
+    public void stopPlayback() {
+        if(this.playerVideoView != null){
+            this.playerVideoView.stopPlayback();
+            this.playerVideoView.clear();
+        }
+    }
+
     private void updateBitRate() {
         ExoPlayerVideoDisplayComponent videoDisplay = ((ExoPlayerVideoDisplayComponent) this.playerVideoView.getVideoDisplay());
         ExoPlayer player = videoDisplay.getExoPlayer();
@@ -482,6 +490,7 @@ public class BrightcovePlayerView extends RelativeLayout implements LifecycleEve
     }
 
     private void playVideo(Video video) {
+        BrightcovePlayerView.this.playerVideoView.stopPlayback();
         BrightcovePlayerView.this.playerVideoView.clear();
         BrightcovePlayerView.this.playerVideoView.add(video);
         if (BrightcovePlayerView.this.autoPlay) {

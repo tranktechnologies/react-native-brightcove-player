@@ -133,6 +133,7 @@ export default class App extends Component {
 | ------------------------------------- 	| ----------------------------------------- |
 | seekTo(timeInSeconds: number) => void 	| Change playhead to arbitrary time 		|
 | setFullscreen(fullscren: boolean) => void | Programaticaly Enter/Exit from fullscreen |
+| stopPlayback() => void | Stop player/release memory |
 
 ### BrightcovePlayerPoster
 
