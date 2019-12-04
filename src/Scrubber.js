@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import {
     View,
     Platform,
-    StyleSheet,
-    Slider as RNSlider
+    StyleSheet
 } from 'react-native'
 import Slider from '@react-native-community/slider'
 const ThumbTracker = require('../Resources/controller.png')
@@ -31,28 +30,24 @@ const Scrubber = (props) => {
     const { progress, theme, onSeek, onSeekRelease } = props
     return (
         <View style={styles.container}>
-            { Platform.OS === 'ios' ?
-                <Slider
-                    onValueChange={val => onSeek(val)}
-                    onSlidingComplete={val => onSeekRelease(val)}
-                    value={progress === Number.POSITIVE_INFINITY ? 0 : progress}
-                    trackStyle={styles.trackStyle}
-                    minimumTrackTintColor={theme.scrubberBar}
-                    maximumTrackTintColor={trackColor}
-                    trackClickable
-                    thumbImage={ThumbTracker}
-                />
-                :
-                <RNSlider
-                    style={props.fullScreen ? styles.sliderFullScreen : styles.slider}
-                    onValueChange={val => onSeek(val)}
-                    onSlidingComplete={val => onSeekRelease(val)}
-                    value={progress}
-                    thumbTintColor={"#e8e8e8"}
-                    minimumTrackTintColor={theme.scrubberBar}
-                    maximumTrackTintColor={trackColor}
-                />
-            }
+            <Slider
+                onValueChange={val => onSeek(val)}
+                onSlidingComplete={val => onSeekRelease(val)}
+                value={progress === Number.POSITIVE_INFINITY ? 0 : progress}
+                minimumTrackTintColor={theme.scrubberBar}
+                maximumTrackTintColor={trackColor}
+                {...Platform.select({
+                    ios:{
+                        thumbImage: ThumbTracker,
+                        trackClickable: true,
+                        trackStyle: styles.trackStyle
+                    },
+                    android:{
+                        style: props.fullScreen ? styles.sliderFullScreen : styles.slider,
+                        thumbTintColor: "#e8e8e8"
+                    }
+                })}
+            />
         </View>
     )
 }

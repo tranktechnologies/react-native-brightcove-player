@@ -126,13 +126,13 @@ class BCPlayer extends Component {
         this.onRotated = this.onRotated.bind(this)
     }
 
-    componentWillMount() {
+    // componentWillMount() {
         // The getOrientation method is async. It happens sometimes that
         // you need the orientation at the moment the JS runtime starts running on device.
         // `getInitialOrientation` returns directly because its a constant set at the
         // beginning of the JS runtime.
         // Remember to remove listener
-    }
+    // }
 
     componentDidMount() {
         this.setState({paused: false})
