@@ -21,9 +21,10 @@
   "license": "MIT",
   "homepage": "https://github.com/manse/react-native-brightcove-player",
   "dependencies": {
-    "prop-types": "^15.5.10",
+   "prop-types": "^15.5.10",
     "react-native-orientation": "^3.1.3",
+    "react-native-slider": "https://github.com/vikasd11/react-native-slider.git",
     "react-native-vector-icons": "^6.6.0",
-    "@react-native-community/slider": "2.0.7"
+    "@react-native-community/slider": "git://github.com/shwetsolanki/react-native-slider.git#feat/slider-track"
   }
 }
