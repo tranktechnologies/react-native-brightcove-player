@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@react-native-community/slider@git://github.com/shwetsolanki/react-native-slider.git#feat/slider-track":
+"@react-native-community/slider":
   version "2.0.2"
   resolved "git://github.com/shwetsolanki/react-native-slider.git#35405cd4674d99cf294d587fdc185abda98e79fd"
 
