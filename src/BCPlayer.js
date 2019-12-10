@@ -181,6 +181,7 @@ class BCPlayer extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.BackHandler)
         Dimensions.removeEventListener('change', this.onRotated)
         AppState.removeEventListener('change', this._handleAppStateChange)
+        Orientation.lockToPortrait()
         clearInterval(this.timer)
     }
 
