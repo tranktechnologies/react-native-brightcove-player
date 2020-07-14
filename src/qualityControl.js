@@ -34,8 +34,8 @@ const QualityControl = (props) => {
 
     const padding = {
         height: 23,
-        paddingLeft: paddingLeft ? paddingLeft : 0,
-        paddingRight: paddingRight ? paddingRight : 0,
+        paddingLeft: paddingLeft,
+        paddingRight: paddingRight,
         width: 23,
         marginRight:17
     }
@@ -60,16 +60,16 @@ QualityControl.propTypes = {
     onPress: PropTypes.func,
     theme: PropTypes.string.isRequired,
     size: PropTypes.number,
-    paddingRight: PropTypes.bool,
-    paddingLeft: PropTypes.bool
+    paddingRight: PropTypes.number,
+    paddingLeft: PropTypes.number
 }
 
 QualityControl.defaultProps = {
     onPress: undefined,
     isOn: false,
     size: 25,
-    paddingRight: false,
-    paddingLeft: false
+    paddingRight: 0,
+    paddingLeft: 0
 }
 
 export { QualityControl }
