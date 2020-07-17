@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { StyleSheet, View } from 'react-native'
 import {Time } from './Time'
 import {Scrubber} from './Scrubber'
+import {BufferScrubber} from './BufferScrubber'
 import {GoLive} from "./GoLive";
 
 const styles = StyleSheet.create({
@@ -17,6 +18,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
     },
+    scrubberCatainer: {
+        flex: 1,
+    },
     controlBarContainer: {
         marginHorizontal: 8
     }
@@ -27,6 +31,7 @@ const ControlBar = (props) => {
         onSeek,
         onSeekRelease,
         progress,
+        bufferProgress,
         currentTime,
         theme,
         isInLiveEdge,
@@ -41,13 +46,20 @@ const ControlBar = (props) => {
                 {duration > 0 && (liveEdge <= 0 || duration==liveEdge) && <Time time={duration} theme={theme.seconds} />}
                 {duration <= 0 && liveEdge > 0 && <GoLive theme={theme.seconds} disabled={isInLiveEdge} seekToLive = {() => props.seekToLive()}/>}
             </View>
-            <Scrubber
-                onSeek={pos => onSeek(pos)}
-                onSeekRelease={pos => onSeekRelease(pos)}
-                progress={progress}
-                theme={{scrubberThumb: theme.scrubberThumb, scrubberBar: theme.scrubberBar}}
-                fullScreen = {props.fullScreen}
-            />
+            <View style={styles.scrubberCatainer}>
+                <BufferScrubber
+                    bufferProgress={bufferProgress}
+                    theme={{scrubberThumb: theme.scrubberThumb, scrubberBar: theme.scrubberBar}}
+                    fullScreen = {props.fullScreen}
+                />
+                <Scrubber
+                    onSeek={pos => onSeek(pos)}
+                    onSeekRelease={pos => onSeekRelease(pos)}
+                    progress={progress}
+                    theme={{scrubberThumb: theme.scrubberThumb, scrubberBar: theme.scrubberBar}}
+                    fullScreen = {props.fullScreen}
+                />
+            </View>
         </View>
     )
 }

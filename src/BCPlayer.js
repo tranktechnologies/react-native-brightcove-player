@@ -104,6 +104,7 @@ class BCPlayer extends Component {
             loading: false,
             duration: 0,
             progress: 0,
+            bufferProgress: 0,
             currentTime: 0,
             seeking: false,
             renderError: false,
@@ -317,6 +318,17 @@ class BCPlayer extends Component {
         }
     }
 
+    updateBufferProgress(time){
+        if(!this.state.seeking){
+            this.setState({bufferProgress:time.bufferProgress})
+        }
+    }
+
+    onBufferingCompleted(){
+        this.setState({loading: false});
+        this.forcePlay();
+    }
+
     toggleQualityOverlay() {
         this.setState({
             qualityControlMenu: !this.state.qualityControlMenu,
@@ -421,6 +433,7 @@ class BCPlayer extends Component {
             paused,
             bitRate,
             progress,
+            bufferProgress,
             duration,
             currentTime,
             qualityControlMenu,
@@ -486,6 +499,7 @@ class BCPlayer extends Component {
                             onSeek={pos => this.seek(pos)}
                             onSeekRelease={pos => this.onSeekRelease(pos)}
                             progress={progress}
+                            bufferProgress={bufferProgress}
                             currentTime={currentTime}
                             theme={theme}
                             duration={duration.duration || duration}
@@ -521,7 +535,8 @@ class BCPlayer extends Component {
                         volume={muted ? 0 : 10}
                         bitRate={bitRate}
                         onBufferingStarted={() => this.setState({loading: true})}
-                        onBufferingCompleted={() => this.setState({loading: false})}
+                        onBufferingCompleted={()=> this.onBufferingCompleted()}
+                        onUpdateBufferProgress={e => this.updateBufferProgress(e)}
                         onEnd={() => this.setState({completed : true})}
                         autoPlay={true}
                     />
