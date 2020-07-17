@@ -257,16 +257,16 @@ class BCPlayer extends Component {
 
     animToFullscreen(height) {
         Animated.parallel([
-            Animated.timing(this.animFullscreen, {toValue: height, duration: 200}),
-            Animated.timing(this.animInline, {toValue: height, duration: 200})
+            Animated.timing(this.animFullscreen, {toValue: height, duration: 200, useNativeDriver: false}),
+            Animated.timing(this.animInline, {toValue: height, duration: 200, useNativeDriver: false})
         ]).start()
     }
 
     animToInline(height) {
         const newHeight = height || this.state.inlineHeight
         Animated.parallel([
-            Animated.timing(this.animFullscreen, {toValue: newHeight, duration: 100}),
-            Animated.timing(this.animInline, {toValue: this.state.inlineHeight, duration: 100})
+            Animated.timing(this.animFullscreen, {toValue: newHeight, duration: 100, useNativeDriver: false}),
+            Animated.timing(this.animInline, {toValue: this.state.inlineHeight, duration: 100, useNativeDriver: false})
         ]).start()
     }
 
@@ -435,7 +435,8 @@ class BCPlayer extends Component {
         } = this.state
 
         const {
-            style
+            style,
+            hideQualityControl
         } = this.props
         const AnimView = showControls ? FadeInAnim : FadeOutAnim
         return (
@@ -453,15 +454,16 @@ class BCPlayer extends Component {
                             theme={theme.fullscreen}
                             size={35}
                         />
+                        {!hideQualityControl &&
                         <QualityControl
                             theme={theme.qualityControl}
                             toggleQuality={() => this.toggleQualityOverlay()}
                             paddingRight={10}
                             selectedOption={selectedQualityIndex}
-
                         />
+                        }
                     </SafeAreaView>
-                    {qualityControlMenu &&
+                    {!hideQualityControl && qualityControlMenu &&
                     <QualityOverlayButtons onPress={(value) => this.toggleQuality.bind(this, value)}
                                            qualityContent={qualityContent} selectedQualityIndex={selectedQualityIndex}/>
                     }
