@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View, StyleSheet, TouchableOpacity, Text, ActivityIndicator, Animated} from 'react-native'
+import {View, StyleSheet, TouchableOpacity} from 'react-native'
 import Icons from 'react-native-vector-icons/MaterialIcons'
-import FICons from 'react-native-vector-icons/FontAwesome'
 
 const styles = StyleSheet.create({
     btnContainer: {
@@ -34,19 +33,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
-    buttonContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
     buttonContentTxt: {
         display: 'flex',
         fontWeight: 'bold',
         fontSize: 14,
         paddingTop: 3
-    },
-    buttonContentIcon: {
-        display: 'flex'
     },
     colorGrey: {
         color:'grey',
@@ -72,16 +63,11 @@ const ScreenButtons = (props) => {
     return (<TouchableOpacity style={styles.btnContainer} onPress={props.onOverlayClick()}>
         <View style={[styles.individualButton, styles.rewindButton]}>
             <TouchableOpacity onPress={() => props.showBackward && props.rewind()}>
-                <View style={styles.buttonContainer}>
-                    <View style={styles.buttonContentIcon}>
-                        <FICons
-                            name={'angle-double-left'}
-                            color={props.showBackward ? props.theme.screenButtons : 'grey'}
-                            size={36}
-                        />
-                    </View><Text
-                    style={[styles.buttonContentTxt, props.showBackward ? styles.colorWhite : styles.colorGrey]}>10</Text>
-                </View>
+                <Icons
+                    name={'replay-10'}
+                    color={props.showBackward ? props.theme.screenButtons : 'grey'}
+                    size={28}
+                />
             </TouchableOpacity>
         </View>
         <View style={[styles.individualButton, styles.centerButton]}>
@@ -89,21 +75,16 @@ const ScreenButtons = (props) => {
             {!props.loading && <TouchableOpacity onPress={() => onPress()}><Icons
                 name={props.completed ? 'replay' : props.paused ? 'play-arrow' : 'pause'}
                 color={props.theme.screenButtons}
-                size={props.completed ? 28 : 36}
+                size={36}
             /></TouchableOpacity>}
         </View>
         <View style={[styles.individualButton, styles.forwardButton]}>
             <TouchableOpacity onPress={() => props.showForward && props.forward()}>
-                <View style={styles.buttonContainer}>
-                    <Text style={[styles.buttonContentTxt, props.showForward ?  styles.colorWhite : styles.colorGrey]}>10</Text>
-                    <View style={styles.buttonContentIcon}>
-                        <FICons
-                            name={'angle-double-right'}
-                            color={props.showForward ? props.theme.screenButtons : 'grey'}
-                            size={36}
-                        />
-                    </View>
-                </View>
+                <Icons
+                    name={'forward-10'}
+                    color={props.showForward ? props.theme.screenButtons : 'grey'}
+                    size={28}
+                />
             </TouchableOpacity>
         </View>
 

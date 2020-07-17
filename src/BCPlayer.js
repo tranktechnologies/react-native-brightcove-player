@@ -368,6 +368,13 @@ class BCPlayer extends Component {
         })
     }
 
+    onPlay() {
+        this.setState({
+            paused: false,
+            completed: false,
+        })
+    }
+
     // openAirplay() {
     //     this.player && this.player.createAirplayIconOverlay();
     // }
@@ -535,8 +542,9 @@ class BCPlayer extends Component {
                         volume={muted ? 0 : 10}
                         bitRate={bitRate}
                         onBufferingStarted={() => this.setState({loading: true})}
-                        onBufferingCompleted={()=> this.onBufferingCompleted()}
+                        onBufferingCompleted={()=>this.onBufferingCompleted()}
                         onUpdateBufferProgress={e => this.updateBufferProgress(e)}
+                        onPlay={()=> this.onPlay()}
                         onEnd={() => this.setState({completed : true})}
                         autoPlay={true}
                     />
