@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         zIndex: 3000,
         position: 'absolute',
         top: 10,
-        right: 138,
+        right: 88,
         borderWidth: 1,
         borderColor: 'white',
         paddingLeft: 10,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         width: 8,
         height: 8,
-        right: 136,
+        right: 86,
         top: 15,
         backgroundColor: 'white',
         position: 'absolute',
@@ -51,28 +51,28 @@ const styles = StyleSheet.create({
     }
 })
 
-const QualityOverlayButtons = (props) => (<SafeAreaView style={styles.ovlySafeContainer}><TouchableOpacity style={styles.ovlyContainer}
+const PlaybackSpeedButtons = (props) => (<SafeAreaView style={styles.ovlySafeContainer}><TouchableOpacity style={styles.ovlyContainer}
                                                                                                            onPress={props.onPress(null)}>
     <View style={styles.arrowIcon}>
     </View>
 
     <View style={styles.btnContainer}>
         {
-            props.qualityContent.map((data, index) => <TouchableOpacity onPress={props.onPress(index)} key={index}>
-                <View style={[{flex:1}, !(props.qualityContent.length - 1 === index) ? styles.borderAttribute : null]}>
-                    <Text style={[styles.individualButton, {color: props.selectedQualityIndex === index ? '#ff5000' :'#9b9b9b'}]}>{data}</Text></View></TouchableOpacity>)
+            props.playbackSpeedContent.map((data, index) => <TouchableOpacity onPress={props.onPress(index)} key={index}>
+                <View style={[{flex:1}, !(props.playbackSpeedContent.length - 1 === index) ? styles.borderAttribute : null]}>
+                    <Text style={[styles.individualButton, {color: props.selectedPlaybackIndex === index ? '#ff5000' :'#9b9b9b'}]}>{data}</Text></View></TouchableOpacity>)
         }
     </View>
 </TouchableOpacity></SafeAreaView>)
 
 
-QualityOverlayButtons.propTypes = {
+PlaybackSpeedButtons.propTypes = {
     onPress: PropTypes.func,
-    qualityContent: PropTypes.array
+    playbackSpeedContent: PropTypes.array
 }
 
-QualityOverlayButtons.defaultProps = {
+PlaybackSpeedButtons.defaultProps = {
     onPress: undefined
 }
 
-export {QualityOverlayButtons}
+export {PlaybackSpeedButtons}

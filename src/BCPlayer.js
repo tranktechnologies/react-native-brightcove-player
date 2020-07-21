@@ -19,6 +19,8 @@ import withEvents from './Events'
 import {ControlBar} from "./ControlBar"
 import {ScreenButtons} from "./screenButtons"
 import {QualityOverlayButtons} from "./qualityOverlayButtons"
+import {PlaybackSpeed} from "./playbackSpeed"
+import {PlaybackSpeedButtons} from "./playbackSpeedButtons"
 import {FadeInAnim, FadeOutAnim} from "./fade-anim";
 import {ToggleIcon} from "./ToggleIcon";
 import {QualityControl} from "./qualityControl";
@@ -27,6 +29,8 @@ import PlayerEventTypes from "./PlayerEventTypes";
 const FORWARD_CONTROL = 5;
 const qualityContent = ['Auto', 'High', 'Medium', 'Data Saver'];
 const quality = [0, 750000, 500000, 120000];
+const playbackSpeedContent = ['0.5x', 'Normal', '1.5x', '1.75x', '2x'];
+const playbackSpeed = [0.5, 1, 1.5, 1.75, 2];
 
 // Wraps the Brightcove player with special Events
 const BrightcovePlayerWithEvents = withEvents(BrightcovePlayer)
@@ -109,7 +113,9 @@ class BCPlayer extends Component {
             seeking: false,
             renderError: false,
             qualityControlMenu: false,
+            playbackSpeedMenu: false,
             bitRate: 0,
+            playbackRate: 1,
             showControls: true,
             showClickOverlay: false,
             seconds: 0,
@@ -117,6 +123,7 @@ class BCPlayer extends Component {
             isInLiveEdge: true,
             liveEdge: 0,
             selectedQualityIndex: 0,
+            selectedPlaybackIndex: 1,
             completed: false,
         }
         this.animInline = new Animated.Value(Win.width * 0.5625)
@@ -336,6 +343,14 @@ class BCPlayer extends Component {
         })
     }
 
+    togglePlaybackOverlay() {
+        this.setState({
+            playbackSpeedMenu: !this.state.playbackSpeedMenu,
+            controlsOverlayClicked: true
+        })
+    }
+
+
     toggleQuality(value) {
 
         this.setState({
@@ -345,6 +360,18 @@ class BCPlayer extends Component {
             selectedQualityIndex: (value >= 0 && value !== null) ? value : this.state.selectedQualityIndex
         }, () => {
             this.props.onEvent && this.props.onEvent({'type': PlayerEventTypes.QUALITY_SELECTED, bitRate : qualityContent[value]})
+        })
+    }
+
+    togglePlaybackSpeed(value) {
+
+        this.setState({
+            playbackSpeedMenu: !this.state.playbackSpeedMenu,
+            controlsOverlayClicked: true,
+            playbackRate: (value >= 0 && value !== null) ? playbackSpeed[value] : this.state.playbackRate,
+            selectedPlaybackIndex: (value >= 0 && value !== null) ? value : this.state.selectedPlaybackIndex
+        }, () => {
+            this.props.onEvent && this.props.onEvent({'type': PlayerEventTypes.PLAYBACK_RATE_CHANGED, playbackRate : playbackSpeedContent[value]})
         })
     }
 
@@ -431,7 +458,7 @@ class BCPlayer extends Component {
             seconds: '#fff',
             duration: '#ff5000',
             progress: '#ff5000',
-            loading: '#fff',
+            loading: '#ff5000',
             screenButtons: '#fff',
             qualityControl: '#fff'
         }
@@ -439,15 +466,18 @@ class BCPlayer extends Component {
             fullScreen,
             paused,
             bitRate,
+            playbackRate,
             progress,
             bufferProgress,
             duration,
             currentTime,
             qualityControlMenu,
+            playbackSpeedMenu,
             loading,
             showControls,
             showClickOverlay,
             selectedQualityIndex,
+            selectedPlaybackIndex,
             isInLiveEdge,
             muted,
             completed,
@@ -461,7 +491,7 @@ class BCPlayer extends Component {
         const AnimView = showControls ? FadeInAnim : FadeOutAnim
         return (
             <View>
-                {loading && <View style={styles.loader}><View style={{position:'absolute', left: '45%', top: '43%', zIndex: 4000}}><ActivityIndicator size="large" color="#fff" /></View></View>}
+                {loading && <View style={styles.loader}><View style={{position:'absolute', left: '45%', top: '43%', zIndex: 4000}}><ActivityIndicator size="large" color={theme.loading} /></View></View>}
                 <AnimView style={styles.topMenu}
                           onEnd={this.onAnimEnd}
                           onOverlayClick={() => this.setState({controlsOverlayClicked: !this.state.controlsOverlayClicked})}>
@@ -474,6 +504,14 @@ class BCPlayer extends Component {
                             theme={theme.fullscreen}
                             size={35}
                         />
+
+                        <PlaybackSpeed
+                            theme={theme.qualityControl}
+                            togglePlaybackSpeed={() => this.togglePlaybackOverlay()}
+                            paddingRight={10}
+                            selectedOption={selectedPlaybackIndex}
+                        />
+                        
                         {!hideQualityControl &&
                         <QualityControl
                             theme={theme.qualityControl}
@@ -483,6 +521,10 @@ class BCPlayer extends Component {
                         />
                         }
                     </SafeAreaView>
+                    {playbackSpeedMenu &&
+                    <PlaybackSpeedButtons onPress={(value) => this.togglePlaybackSpeed.bind(this, value)}
+                                           playbackSpeedContent={playbackSpeedContent} selectedPlaybackIndex={selectedPlaybackIndex}/>
+                    }
                     {!hideQualityControl && qualityControlMenu &&
                     <QualityOverlayButtons onPress={(value) => this.toggleQuality.bind(this, value)}
                                            qualityContent={qualityContent} selectedQualityIndex={selectedQualityIndex}/>
@@ -541,12 +583,12 @@ class BCPlayer extends Component {
                         onProgress={e => this.progress(e)}
                         volume={muted ? 0 : 10}
                         bitRate={bitRate}
+                        playbackRate={playbackRate}
                         onBufferingStarted={() => this.setState({loading: true})}
                         onBufferingCompleted={()=>this.onBufferingCompleted()}
                         onUpdateBufferProgress={e => this.updateBufferProgress(e)}
                         onPlay={()=> this.onPlay()}
                         onEnd={() => this.setState({completed : true})}
-                        autoPlay={true}
                     />
                 </Animated.View>
             </View>
