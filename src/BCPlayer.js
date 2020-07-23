@@ -126,6 +126,7 @@ class BCPlayer extends Component {
             selectedPlaybackIndex: 1,
             completed: false,
         }
+        this.quality = props.quality || quality;
         this.animInline = new Animated.Value(Win.width * 0.5625)
         this.animFullscreen = new Animated.Value(Win.width * 0.5625)
         this.BackHandler = this.BackHandler.bind(this)
@@ -356,7 +357,7 @@ class BCPlayer extends Component {
         this.setState({
             qualityControlMenu: !this.state.qualityControlMenu,
             controlsOverlayClicked: true,
-            bitRate: (value >= 0 && value !== null) ? quality[value] : this.state.bitRate,
+            bitRate: (value >= 0 && value !== null) ? this.quality[value] : this.state.bitRate,
             selectedQualityIndex: (value >= 0 && value !== null) ? value : this.state.selectedQualityIndex
         }, () => {
             this.props.onEvent && this.props.onEvent({'type': PlayerEventTypes.QUALITY_SELECTED, bitRate : qualityContent[value]})
