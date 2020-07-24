@@ -225,7 +225,7 @@ class BCPlayer extends Component {
 
     BackHandler() {
         if (this.state.fullScreen) {
-            this.player && this.player.setFullscreen(false)
+            this.toggleFS()
             return true
         }
         return false
