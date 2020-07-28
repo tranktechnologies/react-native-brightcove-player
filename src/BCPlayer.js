@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: '100%',
         height: '100%',
-        backgroundColor: '#00000080'
+        backgroundColor: '#00000040'
     },
     topSubMenu : {
         display: 'flex',
