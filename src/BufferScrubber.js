@@ -1,62 +1,52 @@
 import React from 'react' // eslint-disable-line
 import PropTypes from 'prop-types'
-import {
-    View,
-    Platform,
-    StyleSheet
-} from 'react-native'
-import Slider from '@react-native-community/slider'
-const BufferThumbTracker = require('../Resources/hidden_controller.png')
+import { View, StyleSheet } from 'react-native'
+import Slider from "react-native-slider"
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        position:'absolute',
+        position: 'absolute',
         start: 0,
         end: 0
     },
     slider: {
-        marginHorizontal: -15,
+        marginHorizontal: -5,
+        height:20,
+    },
+    thumbStyle: {
+        width: 12,
+        height: 12
     },
     trackStyle: {
-        borderRadius: 1
-    },
-    sliderFullScreen: {
-        marginHorizontal: -15,
-        marginBottom:0
-    },
+        borderRadius: 1,
+        height: 3
+    }
 })
 
 const BufferScrubber = (props) => {
-    const trackColor = 'rgba(255,255,255,0.5)'
+    const trackColor = 'rgba(255,255,255,0.4)'
     const bufferedTrackColor = 'rgba(255,255,255,1)'
-    const { bufferProgress, fullScreen } = props
+    const { bufferProgress } = props
     return (
         <View style={styles.container} pointerEvents="none">
-            <Slider 
+            <Slider
+                style= {styles.slider}
                 value={bufferProgress === Number.POSITIVE_INFINITY ? 0 : bufferProgress}
+                thumbTintColor="#00000000"
+                thumbStyle={styles.thumbStyle}
+                trackStyle={styles.trackStyle}
                 minimumTrackTintColor={bufferedTrackColor}
                 maximumTrackTintColor={trackColor}
-                //disabled
-                {...Platform.select({
-                    ios:{
-                        thumbImage: BufferThumbTracker,
-                        trackStyle: styles.trackStyle 
-                    }, 
-                    android:{
-                        style: fullScreen ? styles.sliderFullScreen : styles.slider,
-                        thumbTintColor: "#FFFFFF00"
-                    }
-                })}
+                disabled
             />
         </View>
     )
 }
 
 BufferScrubber.propTypes = {
-    bufferProgress: PropTypes.number.isRequired,
-    theme: PropTypes.object.isRequired
+    bufferProgress: PropTypes.number.isRequired
 }
 
 export { BufferScrubber }

@@ -460,7 +460,7 @@ class BCPlayer extends Component {
         const theme = {
             title: '#fff',
             fullscreen: '#fff',
-            scrubberThumb: '#ff5000',
+            scrubberThumb: '#e8e8e8',
             scrubberBar: '#ff5000',
             seconds: '#fff',
             duration: '#ff5000',
