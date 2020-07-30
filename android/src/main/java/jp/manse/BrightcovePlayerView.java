@@ -76,6 +76,7 @@ public class BrightcovePlayerView extends RelativeLayout implements LifecycleEve
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean isNetworkForcedPause = false;
     private boolean isRegisteredConnectivityChanged = false;
+    private boolean hostActive = true;
 
     public BrightcovePlayerView(ThemedReactContext context, ReactApplicationContext applicationContext) {
         super(context);
@@ -465,8 +466,14 @@ public class BrightcovePlayerView extends RelativeLayout implements LifecycleEve
         VideoListener listener = new VideoListener() {
             @Override
             public void onVideo(Video video) {
-				BrightcovePlayerView.this.mediaInfo = video.getProperties();
-                playVideo(video);
+                if((BrightcovePlayerView.this.videoId != null && BrightcovePlayerView.this.videoId.equals(video.getId())) || 
+                        (BrightcovePlayerView.this.referenceId != null && BrightcovePlayerView.this.referenceId.equals(video.getReferenceId()))){
+                    if(BrightcovePlayerView.this.hostActive){
+                        Log.e("Brightcove Player",video.getId()+"Play");
+                        BrightcovePlayerView.this.mediaInfo = video.getProperties();
+                        playVideo(video);
+                    }
+                }
             }
 
             @Override
@@ -537,22 +544,35 @@ public class BrightcovePlayerView extends RelativeLayout implements LifecycleEve
 
     @Override
     public void onHostResume() {
+         Log.e("BrightcovePlayer","Host Resumed");
 	    // Register to audio focus changes when the screen resumes
+        this.hostActive = true;
 	    audioFocusManager.registerListener(this);
         registerConnectivityChange();
     }
 
     @Override
     public void onHostPause() {
+        Log.e("BrightcovePlayer","Host Paused");
         // Unregister from audio focus changes when the screen goes in the background
+        this.hostActive = false;
         audioFocusManager.unregisterListener();
         unregisterConnectivityChange();
     }
 
     @Override
+    protected void onAttachedToWindow() {
+        Log.e("BrightcovePlayer","Attach to Window");
+        this.hostActive = true;
+        super.onAttachedToWindow();
+    }
+
+    @Override
     protected void onDetachedFromWindow() {
+        Log.e("BrightcovePlayer","Detach Form Window");
         // For safety, clear listeners in onDetachedFromWindow too since when the back button or home toolbar button are
         // clicked, onHostPause does not get executed
+        this.hostActive = false;
         super.onDetachedFromWindow();
         // Unregister from audio focus changes when the screen goes in the background
         audioFocusManager.unregisterListener();
