@@ -13,6 +13,7 @@ import {
     SafeAreaView,
     ActivityIndicator
 } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import BrightcovePlayer from './BrightcovePlayer'
 import Orientation from 'react-native-orientation'
 import withEvents from './Events'
@@ -65,6 +66,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row-reverse',
         zIndex:1000
+    },
+    backButton:{
+        padding: 16,
+        marginStart:'auto'
     },
     bottomBar: {
         zIndex: 1900,
@@ -460,6 +465,7 @@ class BCPlayer extends Component {
         const theme = {
             title: '#fff',
             fullscreen: '#fff',
+            backButton:'#fff',
             scrubberThumb: '#e8e8e8',
             scrubberBar: '#ff5000',
             seconds: '#fff',
@@ -493,6 +499,8 @@ class BCPlayer extends Component {
 
         const {
             style,
+            backButton,
+            backAction,
             hideQualityControl
         } = this.props
         const AnimView = showControls ? FadeInAnim : FadeOutAnim
@@ -525,6 +533,15 @@ class BCPlayer extends Component {
                             toggleQuality={() => this.toggleQualityOverlay()}
                             paddingRight={10}
                             selectedOption={selectedQualityIndex}
+                        />
+                        }
+                        {!fullScreen && backButton &&
+                        <Icon 
+                            onPress={backAction}
+                            name="keyboard-backspace"
+                            color={theme.backButton}
+                            size={24}
+                            style={styles.backButton}
                         />
                         }
                     </SafeAreaView>
@@ -609,6 +626,7 @@ BCPlayer.defaultProps = {
     style: {},
     autoPlay: false,
     inlineOnly: false,
+    backButton: false,
     fullScreenOnly: false,
     rotateToFullScreen: false,
     lockPortraitOnFsExit: false,
