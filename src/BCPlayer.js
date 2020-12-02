@@ -30,8 +30,8 @@ import PlayerEventTypes from "./PlayerEventTypes";
 const FORWARD_CONTROL = 5;
 const qualityContent = ['Auto', 'High', 'Medium', 'Data Saver'];
 const quality = [0, 750000, 500000, 120000];
-const playbackSpeedContent = ['0.5x', 'Normal', '1.5x', '1.75x', '2x'];
-const playbackSpeed = [0.5, 1, 1.5, 1.75, 2];
+const playbackSpeedContent = ['0.5x', '0.75x', 'Normal', '1.25x', '1.5x', '1.75x', '2x'];
+const playbackSpeed = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 
 // Wraps the Brightcove player with special Events
 const BrightcovePlayerWithEvents = withEvents(BrightcovePlayer)
@@ -128,7 +128,7 @@ class BCPlayer extends Component {
             isInLiveEdge: true,
             liveEdge: 0,
             selectedQualityIndex: 0,
-            selectedPlaybackIndex: 1,
+            selectedPlaybackIndex: 2,
             completed: false,
         }
         this.quality = props.quality || quality;

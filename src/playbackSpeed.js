@@ -26,7 +26,7 @@ const PlaybackSpeed = (props) => {
         width: 56,
         alignItems:'center'
     }
-    const contolArray = ['0.5x', '1x', '1.5x', '1.75x', '2x']
+    const contolArray = ['0.5x', '0.75x', '1x', '1.25x', '1.5x', '1.75x', '2x']
     return (
         <View style={styles.btnContainer}>
 

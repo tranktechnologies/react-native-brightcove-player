@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View, StyleSheet, TouchableOpacity, Text, SafeAreaView} from 'react-native'
+import {View, ScrollView, StyleSheet, TouchableOpacity, Text, SafeAreaView} from 'react-native'
 
 const styles = StyleSheet.create({
     ovlySafeContainer: {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         width:'100%'
 
     },
-    btnContainer: {
+    btnContainer: { 
         zIndex: 3000,
         position: 'absolute',
         top: 10,
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         backgroundColor: 'white',
         borderRadius: 5,
+        maxHeight: 130,
 
     },
     arrowIcon:{
@@ -56,13 +57,13 @@ const PlaybackSpeedButtons = (props) => (<SafeAreaView style={styles.ovlySafeCon
     <View style={styles.arrowIcon}>
     </View>
 
-    <View style={styles.btnContainer}>
+    <ScrollView style={styles.btnContainer} persistentScrollbar>
         {
             props.playbackSpeedContent.map((data, index) => <TouchableOpacity onPress={props.onPress(index)} key={index}>
                 <View style={[{flex:1}, !(props.playbackSpeedContent.length - 1 === index) ? styles.borderAttribute : null]}>
                     <Text style={[styles.individualButton, {color: props.selectedPlaybackIndex === index ? '#ff5000' :'#9b9b9b'}]}>{data}</Text></View></TouchableOpacity>)
         }
-    </View>
+    </ScrollView>
 </TouchableOpacity></SafeAreaView>)
 
 
